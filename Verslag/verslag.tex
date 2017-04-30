@@ -1,0 +1,90 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage[headheight=10pt]{geometry}
+\usepackage[acronyms,nomain,nonumberlist]{glossaries}
+
+\usepackage{listings}
+\lstset{
+	tabsize=2,
+	frame=single,
+	columns=flexible,
+	breaklines=true
+}
+
+\usepackage[backend=biber,sorting=ynt,style=ieee]{biblatex}
+\bibliography{referenties.bib}
+
+\pagestyle{fancy}
+
+\newcommand\blankpage{%
+	\newpage
+	\null
+	\thispagestyle{empty}%
+	\newpage}
+
+\renewcommand{\contentsname}{Inhoudstabel}
+\renewcommand{\listfigurename}{Lijst met figuren}
+\renewcommand{\listtablename}{Lijst met tabellen}
+\renewcommand{\headrulewidth}{0pt}
+
+\loadglsentries{acronyms}
+\makeglossaries
+
+\title{\vfill Ingebedde systemen: project - controller voor servomotoren}
+\author{Francis Begyn en Heleen Cauwels}
+\date{2017 \vfill}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\maketitle
+		\centering Begeleider: Dimitri Van Cauwelaert
+		\thispagestyle{fancy}
+		\fancyhf{}
+		\rhead{\includegraphics*{ugent}}
+		\cfoot{\includegraphics*{faculteit}}
+	\end{titlepage}
+	
+	\renewcommand{\headheight}{10pt}
+	\fancyhf{}
+	\cfoot{\thepage}
+	\addtocounter{page}{+1}
+	
+	\addcontentsline{toc}{section}{Inhoudstabel}
+	\tableofcontents
+	\newpage
+	
+	\addcontentsline{toc}{section}{Lijst met figuren}
+	\listoffigures
+	\newpage
+	
+	\addcontentsline{toc}{section}{Lijst met tabellen}
+	\listoftables
+	\newpage
+	
+	\addcontentsline{toc}{section}{Lijst met afkortingen}
+	\printglossary[type=\acronymtype,title={Lijst met afkortingen}]
+	\newpage
+	
+	\addcontentsline{toc}{section}{Inleiding}
+	\section*{Inleiding}
+%	\input{Inleiding/}
+	\newpage
+	
+	\section{Probleembeschrijving}
+	\section{Vereisten en afspraken van de controller}
+	\section{Verslag code}
+	
+	\newpage
+	\section*{Conclusie}
+%	\input{}
+	\newpage
+	
+	\addcontentsline{toc}{section}{Referenties}
+	\printbibliography[title={Referenties}]
+	
+	\blankpage
+\end{document}
