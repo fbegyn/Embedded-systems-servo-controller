@@ -59,19 +59,20 @@ begin
 	end process transition;
 
 	-- set_output determines which output correspont with a state
+	-- The done is defined so it works on bus structure, 3 state logic
 	set_output: process(currentState) begin
 		case currentState is
 			when idle =>
-				done <= '1';
+				done <= 'H';
 				--pwm <= pwm_gen;
 			when addr_rd =>
-				done <= '1';
+				done <= 'H';
 			when data_rd =>
-				done <= '0';
+				done <= 'L';
 			when move =>
-				done <= '0';
+				done <= 'L';
 			when hold =>
-				done <= '1';
+				done <= 'H';
 				--pwm <= pwm_gen;
 			when others =>
 				-- done <= '-';
