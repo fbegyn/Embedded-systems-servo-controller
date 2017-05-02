@@ -14,7 +14,7 @@ architecture control of servocontrol is
 begin
 
 	-- State_trans describes the transitions of the states.
-	state_trans: process(rst,currentState,set) begin
+	state_trans: process(rst,currentState,set,clk) begin
 		if rst = '1' then
 			nextState <= idle;
 		else
@@ -26,12 +26,14 @@ begin
 						nextState <= idle;
 					end if;
 				when addr_rd =>
-					if (set = '1' and (unsigned(data) = address or unsigned(data) = 255)) then
-						nextState <= data_rd;
-					elsif set ='0' then
-						nextState <= idle;
-					else
-						nextState <= hold;
+					if falling_edge(clk) then
+						if (set = '1' and (unsigned(data) = address or unsigned(data) = 255)) then
+							nextState <= data_rd;
+						elsif set ='0' then
+							nextState <= idle;
+						else
+							nextState <= hold;
+						end if;
 					end if;
 				when data_rd =>
 					nextState <= move;
@@ -76,14 +78,20 @@ begin
 		end case;
 	end process set_output;
 
-	-- pwm_data sets the amount of ticks needed to generate a correct duration with servo clock = 512kHz
-	-- 1.25ms = 640 ticks, 1.5ms = 768 ticks, 1.75ms = 896 ticks
-	pwm_data: process(currentState) begin
+	-- pwm_data sets the amount of ticks needed to generate a correct duration with servo clock = 510kHz
+	-- 1.25ms = 637 ticks, 1.5ms = 765 ticks, 1.75ms = 892 ticks
+	pwm_data: process(currentState,clk) begin
 		case currentState is
 			when idle =>
-				pwmi <= unsigned(768); -- values according to 512kHz servo clock.
+				pwmi <= unsigned(765); -- values according to 510kHz servo clock.
 			when move =>
-				pwmi <= unsigned('0' & data) + 640;
+				if falling_edge(clk) then
+					if data >= 255 then
+						pwmi <= unsigned(892);
+					else
+						pwmi <= unsigned('0' & data) + 637;
+					end if;
+				end if;
 			when others =>
 		end case;
 
