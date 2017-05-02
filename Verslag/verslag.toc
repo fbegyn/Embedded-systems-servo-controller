@@ -1,19 +1,9 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
-\defcounter {refsection}{0}\relax 
 \contentsline {section}{Inhoudstabel}{2}
-\defcounter {refsection}{0}\relax 
 \contentsline {section}{Lijst met figuren}{3}
-\defcounter {refsection}{0}\relax 
 \contentsline {section}{Lijst met tabellen}{4}
-\defcounter {refsection}{0}\relax 
 \contentsline {section}{Lijst met afkortingen}{5}
-\defcounter {refsection}{0}\relax 
 \contentsline {section}{Inleiding}{6}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1}Probleembeschrijving}{7}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2}Vereisten en afspraken van de controller}{7}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Verslag code}{7}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{Referenties}{9}
+\contentsline {section}{\numberline {1}Vereisten en afspraken van de controller}{6}
+\contentsline {section}{\numberline {2}Verslag code}{7}
+\contentsline {subsection}{\numberline {2.1}Entity}{7}
+\contentsline {subsection}{\numberline {2.2}Architecture}{7}

@@ -14,8 +14,8 @@
 	breaklines=true
 }
 
-\usepackage[backend=biber,sorting=ynt,style=ieee]{biblatex}
-\bibliography{referenties.bib}
+%\usepackage[backend=biber,sorting=ynt,style=ieee]{biblatex}
+%\bibliography{referenties.bib}
 
 \pagestyle{fancy}
 
@@ -71,20 +71,21 @@
 	
 	\addcontentsline{toc}{section}{Inleiding}
 	\section*{Inleiding}
-%	\input{Inleiding/}
-	\newpage
+	\input{Inleiding}
 	
-	\section{Probleembeschrijving}
 	\section{Vereisten en afspraken van de controller}
-	\section{Verslag code}
+	\input{Vereisten}
 	
-	\newpage
+	\section{Verslag code}
+	\input{Entity}
+	\input{Architecture}
+	\input{Testbench}
+	
 	\section*{Conclusie}
 %	\input{}
-	\newpage
 	
-	\addcontentsline{toc}{section}{Referenties}
-	\printbibliography[title={Referenties}]
+	%\addcontentsline{toc}{section}{Referenties}
+	%\printbibliography[title={Referenties}]
 	
 	\blankpage
 \end{document}
