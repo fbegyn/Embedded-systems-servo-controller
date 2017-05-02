@@ -84,11 +84,11 @@ begin
 	pwm_data: process(currentState,clk) begin
 		case currentState is
 			when idle =>
-				pwmi <= unsigned(765); -- values according to 510kHz servo clock.
+				pwmi <= to_unsigned(765,10); -- values according to 510kHz servo clock.
 			when move =>
 				if falling_edge(clk) then
-					if data >= 255 then
-						pwmi <= unsigned(892);
+					if data > std_logic_vector(to_unsigned(255,8)) then
+						pwmi <= to_unsigned(892,10);
 					else
 						pwmi <= unsigned('0' & data) + 637;
 					end if;
