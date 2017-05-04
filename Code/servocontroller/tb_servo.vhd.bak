@@ -86,7 +86,6 @@ end process servoclk_gen;
 
 input_gen: process
 begin
-	wait for 10 ms;
 	rst<='1';
 	wait until falling_edge(clk);
 	rst<='0';
@@ -123,11 +122,12 @@ begin
 		assert(pwm_stop-pwm_start=1.25 ms + to_integer(plaats)*sclkPeriod)
 		report "Fout PWM signaal"
 		severity error;
-		report time'image(pwm_stop-pwm_start)&" /= "&time'image(to_integer(plaats)*sclkPeriod);
+		report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+to_integer(plaats)*sclkPeriod);
 		
 		wait until falling_edge(clk);
-		assert(done ='1');
-		report "Done is laag, verwacht hoog";
+		assert(done ='1')
+		report "Done is "&std_logic'image(done)&", verwacht '1'"
+		severity error;
 		plaats <= plaats+32;
 		wait for 30 ms;
 	end loop;

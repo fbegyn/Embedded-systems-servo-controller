@@ -86,7 +86,6 @@ end process servoclk_gen;
 
 input_gen: process
 begin
-	wait for 10 ms;
 	rst<='1';
 	wait until falling_edge(clk);
 	rst<='0';
@@ -97,13 +96,13 @@ begin
 		report " "&integer'image(to_integer(plaats));
 		wait until rising_edge(clk);
 		set <='1';
-		data <=std_logic_vector(to_unsigned(1,8));
+		data <=std_logic_vector(to_unsigned(1,8)); -- address sturen
 		wait until falling_edge(clk);
 		assert(done = '1')
 		report "Done is "&std_logic'image(done)&", verwacht '1'"
 		severity error;
 		wait until rising_edge(clk);
-		data <= std_logic_vector(plaats);
+		data <= std_logic_vector(plaats); -- positie sturen
 		wait until falling_edge(clk);
 		assert(done ='0')
 		report "Done is "&std_logic'image(done)&", verwacht '0'"
@@ -123,12 +122,12 @@ begin
 		assert(pwm_stop-pwm_start=1.25 ms + to_integer(plaats)*sclkPeriod)
 		report "Fout PWM signaal"
 		severity error;
-		report time'image(pwm_stop-pwm_start)&" /= "&time'image(to_integer(plaats)*sclkPeriod);
+		report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+to_integer(plaats)*sclkPeriod);
 		
 		wait until falling_edge(clk);
 		assert(done ='1')
 		report "Done is "&std_logic'image(done)&", verwacht '1'"
-		severity erro;
+		severity error;
 		plaats <= plaats+32;
 		wait for 30 ms;
 	end loop;

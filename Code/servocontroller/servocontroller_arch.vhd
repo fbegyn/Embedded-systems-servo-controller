@@ -9,86 +9,94 @@ architecture control of servocontrol is
 
   --signal pwm_gen : std_logic;
   type state is (idle,addr_rd,data_rd,move,hold);
-  signal currentState : state;
-  signal nextState: state;
+  signal currentState : state:= idle;
+  signal nextState: state:= idle;
 
 begin
 
 	-- State_trans describes the transitions of the states.
-	state_trans: process(rst,currentState,set,clk) begin
-		if rst = '1' then
-			nextState <= idle;
-		else
-			case currentState is
-				when idle =>
+	state_trans: process(currentState,set) 
+		begin
+		case currentState is
+			when idle =>
+				report "state: idle";
+				if set = '1' then
+					report "go to addr_rd";
+					nextState <= addr_rd;
+				else
+					nextState <= idle;
+				end if;
+			when addr_rd =>
+				report "state: addr_rd";
+				--if falling_edge(clk) then
 					if set = '1' then
-						nextState <= addr_rd;
-					else
-						nextState <= idle;
-					end if;
-				when addr_rd =>
-					report "state: addr_rd";
-					if falling_edge(clk) then
-						if set = '1' then
-							report "set is high";
-							if unsigned(data) = address then
-								nextState <= data_rd;
-								report "reading data";
-							end if;
-						elsif set ='0' then
-							nextState <= idle;
-							report "idling";
+						report "set is high";
+						report "address is "& integer'image(to_integer(address));
+						report "data (address) is "&integer'image(to_integer(unsigned(data))); 
+						if unsigned(data) = address then
+							nextState <= data_rd;
+							report "reading address";
 						else
 							report "holding";
 							nextState <= hold;
+							
 						end if;
-						--nextState <= data_rd;
+					else
+						nextState <= idle;
+						report "idling";
+					
 					end if;
-				when data_rd =>
-					report "state: data_rd";
-					nextState <= move;
-				when move =>
-					report "state: move";
+					--nextState <= data_rd;
+				--end if;
+			when data_rd =>
+				report "state: data_rd";
+				nextState <= move;
+			when move =>
+				report "state: move";
+				nextState <= hold;
+			when hold =>
+				report "state: hold";
+				if set ='1' then
+					nextState <= addr_rd;
+				elsif set ='0' then
 					nextState <= hold;
-				when hold =>
-					report "state: hold";
-					if set ='1' then
-						nextState <= addr_rd;
-					elsif set ='0' then
-						nextState <= hold;
-					end if;
-				when others =>
-					nextState <= idle;
-				end case;
-			end if;
+				end if;
+			when others =>
+				nextState <= idle;
+			end case;
+			
 	end process state_trans;
 
 	-- Transition is the actual transition beteen states
-	transition: process(clk) begin
-		if rising_edge(clk) then
+	transition: process(rst,clk) begin
+		if rst = '1' then
+			currentState <= idle;
+		elsif falling_edge(clk) then
 			currentState <= nextState;
 		end if;
 	end process transition;
 
 	-- set_output determines which output correspont with a state
 	-- The done is defined so it works on bus structure, 3 state logic
-	set_output: process(currentState) begin
-		case currentState is
-			when idle =>
-				done <= '1';
+	set_output: process(currentState,clk) begin
+		if(rising_edge(clk)) then
+			case currentState is
+				when idle =>
+					done <= '1';
 				--pwm <= pwm_gen;
-			when addr_rd =>
-				done <= '0';
-			when data_rd =>
-				done <= '0';
-			when move =>
-				done <= '1';
-			when hold =>
-				done <= '1';
-				--pwm <= pwm_gen;
-			when others =>
-				-- done <= '-';
-		end case;
+				when addr_rd =>
+					done <= '0';
+				when data_rd =>
+					done <= '0';
+				when move =>
+					done <= '1';
+				when hold =>
+					done <= '1';
+					--pwm <= pwm_gen;
+				when others =>
+					-- done <= '-';
+			end case;
+		end if;
 	end process set_output;
 
 	-- pwm_data sets the amount of ticks needed to generate a correct duration with servo clock = 510kHz
@@ -99,16 +107,16 @@ begin
 				pwmi <= to_unsigned(765,10); -- values according to 510kHz servo clock.
 			when move =>
 				report "moving";
-				if falling_edge(clk) then
-					report "setting value";
-					if data > std_logic_vector(to_unsigned(255,8)) then
-						report "255";
-						pwmi <= to_unsigned(892,10);
-					else
-						report "setting ...";
-						pwmi <= unsigned(data) + to_unsigned(637,10);
-					end if;
+				
+				report "setting value";
+				if data > std_logic_vector(to_unsigned(255,8)) then
+					report "255";
+					pwmi <= to_unsigned(892,10);
+				else
+					report "setting ...";
+					pwmi <= unsigned(data) + to_unsigned(637,10);
 				end if;
+			
 			when others =>
 		end case;
 	end process pwm_data;
