@@ -21,7 +21,6 @@ begin
 			when idle =>
 				report "state: idle";
 				if set = '1' then
-					report "go to addr_rd";
 					nextState <= addr_rd;
 				else
 					nextState <= idle;
@@ -30,21 +29,16 @@ begin
 				report "state: addr_rd";
 				--if falling_edge(clk) then
 					if set = '1' then
-						report "set is high";
 						report "address is "& integer'image(to_integer(address));
 						report "data (address) is "&integer'image(to_integer(unsigned(data))); 
 						if unsigned(data) = address then
 							nextState <= data_rd;
-							report "reading address";
 						else
-							report "holding";
 							nextState <= hold;
 							
 						end if;
 					else
-						nextState <= idle;
-						report "idling";
-					
+						nextState <= idle;					
 					end if;
 					--nextState <= data_rd;
 				--end if;
@@ -105,16 +99,15 @@ begin
 		case currentState is
 			when idle =>
 				pwmi <= to_unsigned(765,10); -- values according to 510kHz servo clock.
-			when move =>
-				report "moving";
-				
+			when move =>				
 				report "setting value";
 				if data > std_logic_vector(to_unsigned(255,8)) then
 					report "255";
 					pwmi <= to_unsigned(892,10);
 				else
 					report "setting ...";
-					pwmi <= unsigned(data) + to_unsigned(637,10);
+					pwmi <= unsigned('0' & data) + to_unsigned(637,10);
+					report " "&integer'image(to_integer(pwmi));
 				end if;
 			
 			when others =>
