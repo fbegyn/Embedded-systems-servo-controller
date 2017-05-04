@@ -39,7 +39,7 @@ constant dutyCycle: real :=0.5;
 signal EndOfSim: boolean:= false;
 
 
-signal plaats: unsigned(7 downto 0):=(others => '0');
+signal plaats: unsigned(8 downto 0):=(others => '0');
 signal pwm_start: time;
 signal pwm_stop: time;
 begin
@@ -96,13 +96,13 @@ begin
 		report " "&integer'image(to_integer(plaats));
 		wait until rising_edge(clk);
 		set <='1';
-		data <=std_logic_vector(to_unsigned(1,8)); -- address sturen
+		data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 		wait until falling_edge(clk);
 		assert(done = '1')
 		report "Done is "&std_logic'image(done)&", verwacht '1'"
 		severity error;
 		wait until rising_edge(clk);
-		data <= std_logic_vector(plaats); -- positie sturen
+		data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
 		wait until falling_edge(clk);
 		assert(done ='0')
 		report "Done is "&std_logic'image(done)&", verwacht '0'"
