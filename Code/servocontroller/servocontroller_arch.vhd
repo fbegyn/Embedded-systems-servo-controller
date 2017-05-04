@@ -28,26 +28,24 @@ begin
 				end if;
 			when addr_rd =>
 				report "state: addr_rd";
-				--if falling_edge(clk) then
-					if set = '1' then
-						report "set is high";
-						report "address is "& integer'image(to_integer(address));
-						report "data (address) is "&integer'image(to_integer(unsigned(data))); 
-						if unsigned(data) = address then
-							nextState <= data_rd;
-							report "reading address";
-						else
-							report "holding";
-							nextState <= hold;
-							
-						end if;
+				if set = '1' then
+					report "set is high";
+					report "address is "& integer'image(to_integer(address));
+					report "data (address) is "&integer'image(to_integer(unsigned(data))); 
+					if unsigned(data) = address then
+						nextState <= data_rd;
+						report "reading plaats";
 					else
-						nextState <= idle;
-						report "idling";
-					
+						report "holding";
+						nextState <= hold;
+						
 					end if;
-					--nextState <= data_rd;
-				--end if;
+				else
+					nextState <= idle;
+					report "idling";
+				
+				end if;
+					
 			when data_rd =>
 				report "state: data_rd";
 				nextState <= move;
@@ -78,21 +76,24 @@ begin
 
 	-- set_output determines which output correspont with a state
 	-- The done is defined so it works on bus structure, 3 state logic
-	set_output: process(currentState,clk) begin
+	set_output: process(currentState,clk, nextState) begin
 		if(rising_edge(clk)) then
 			case currentState is
 				when idle =>
 					done <= '1';
-				--pwm <= pwm_gen;
 				when addr_rd =>
-					done <= '0';
+					if(nextState=data_rd) then
+						done <= '0';
+					else
+						done <='1';
+					end if;
 				when data_rd =>
 					done <= '0';
 				when move =>
 					done <= '1';
 				when hold =>
 					done <= '1';
-					--pwm <= pwm_gen;
+					
 				when others =>
 					-- done <= '-';
 			end case;
