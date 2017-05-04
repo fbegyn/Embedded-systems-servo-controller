@@ -26,20 +26,28 @@ begin
 						nextState <= idle;
 					end if;
 				when addr_rd =>
+					report "state: addr_rd";
 					if falling_edge(clk) then
-						if (set = '1' and (unsigned(data) = address or unsigned(data) = 255)) then
+						if (set = '1' and (unsigned(data) = unsigned(address) or unsigned(data) = to_unsigned(255,8))) then
 							nextState <= data_rd;
+							report "data_rd";
 						elsif set ='0' then
 							nextState <= idle;
+							report "idling";
 						else
+							report "holding";
 							nextState <= hold;
 						end if;
+						--nextState <= data_rd;
 					end if;
 				when data_rd =>
+					report "state: data_rd";
 					nextState <= move;
 				when move =>
+					report "state: move";
 					nextState <= hold;
 				when hold =>
+					report "state: hold";
 					if set ='1' then
 						nextState <= addr_rd;
 					elsif set ='0' then
@@ -63,16 +71,16 @@ begin
 	set_output: process(currentState) begin
 		case currentState is
 			when idle =>
-				done <= 'H';
+				done <= '1';
 				--pwm <= pwm_gen;
 			when addr_rd =>
-				done <= 'H';
+				done <= '0';
 			when data_rd =>
-				done <= 'L';
+				done <= '0';
 			when move =>
-				done <= 'L';
+				done <= '1';
 			when hold =>
-				done <= 'H';
+				done <= '1';
 				--pwm <= pwm_gen;
 			when others =>
 				-- done <= '-';
@@ -86,7 +94,9 @@ begin
 			when idle =>
 				pwmi <= to_unsigned(765,10); -- values according to 510kHz servo clock.
 			when move =>
+				report "moving";
 				if falling_edge(clk) then
+					report "setting value";
 					if data > std_logic_vector(to_unsigned(255,8)) then
 						pwmi <= to_unsigned(892,10);
 					else
@@ -103,7 +113,7 @@ begin
 		if rising_edge(clk) then
 			cnt <= (others => '0');
 		elsif rising_edge(sclk) then
-			if cnt < 1023 then
+			if (cnt < 1023) then
 				cnt <= cnt + 1;
 			end if;
 		end if;

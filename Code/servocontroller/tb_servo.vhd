@@ -33,7 +33,7 @@ signal done: std_logic;
 signal pwm: std_logic;
 --clockperiodes
 constant clkPeriod: time:= 20 ms;
-constant sclkPeriod: time:=1960784 fs; --aan te passen
+constant sclkPeriod: time:=	1.960784 us; --aan te passen
 constant dutyCycle: real :=0.5;
 --end of simulation
 signal EndOfSim: boolean:= false;
@@ -56,7 +56,7 @@ port map(
 	data => data,
 	done => done,
 	pwm => pwm
-	);
+);
 
 
 clk_gen: process
@@ -93,23 +93,23 @@ begin
 	wait until rising_edge(clk);
 -- normale werking
 	plaats <= (others => '0');
-	while plaats <256 loop
+	while (plaats < 256) loop
 		report " "&integer'image(to_integer(plaats));
 		wait until rising_edge(clk);
 		set <='1';
 		data <=std_logic_vector(to_unsigned(1,8));
 		wait until falling_edge(clk);
-		assert(done <='H');
+		assert(done = '1');
 		report "Done is laag, verwacht hoog";
 		wait until rising_edge(clk);
 		data <= std_logic_vector(plaats);
 		wait until falling_edge(clk);
-		assert(done ='L');
+		assert(done ='0');
 		report "Done is hoog, verwacht laag";
 		wait until rising_edge(clk);
-		set <='0';
+		set <= '0';
 		wait until falling_edge(clk);
-		assert( done ='L');
+		assert( done ='0');
 		report "Done is hoog, verwacht laag";
 		wait until rising_edge(pwm);
 		pwm_start<=now;
@@ -122,7 +122,7 @@ begin
 		report time'image(pwm_stop-pwm_start)&" /= "&time'image(to_integer(plaats)*sclkPeriod);
 		
 		wait until falling_edge(clk);
-		assert(done ='H');
+		assert(done ='1');
 		report "Done is laag, verwacht hoog";
 		plaats <= plaats+32;
 		wait for 30 ms;
