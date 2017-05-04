@@ -6,6 +6,7 @@ architecture control of servocontrol is
 
   signal cnt : unsigned(9 downto 0) := (others => '0');
 	signal pwmi : unsigned(9 downto 0) := (others => '0');
+
   --signal pwm_gen : std_logic;
   type state is (idle,addr_rd,data_rd,move,hold);
   signal currentState : state;
