@@ -4,8 +4,8 @@ use IEEE.numeric_std.all;
 
 architecture control of servocontrol is
 
-  signal cnt : unsigned(9 downto 0);
-	signal pwmi : unsigned(9 downto 0);
+  signal cnt : unsigned(9 downto 0) := (others => '0');
+	signal pwmi : unsigned(9 downto 0) := (others => '0');
   --signal pwm_gen : std_logic;
   type state is (idle,addr_rd,data_rd,move,hold);
   signal currentState : state;
@@ -28,9 +28,12 @@ begin
 				when addr_rd =>
 					report "state: addr_rd";
 					if falling_edge(clk) then
-						if (set = '1' and (unsigned(data) = unsigned(address) or unsigned(data) = to_unsigned(255,8))) then
-							nextState <= data_rd;
-							report "data_rd";
+						if set = '1' then
+							report "set is high";
+							if unsigned(data) = address then
+								nextState <= data_rd;
+								report "reading data";
+							end if;
 						elsif set ='0' then
 							nextState <= idle;
 							report "idling";
@@ -98,9 +101,11 @@ begin
 				if falling_edge(clk) then
 					report "setting value";
 					if data > std_logic_vector(to_unsigned(255,8)) then
+						report "255";
 						pwmi <= to_unsigned(892,10);
 					else
-						pwmi <= unsigned('0' & data) + 637;
+						report "setting ...";
+						pwmi <= unsigned(data) + to_unsigned(637,10);
 					end if;
 				end if;
 			when others =>
