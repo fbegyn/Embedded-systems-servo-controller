@@ -20,14 +20,14 @@ begin
 		case currentState is
 			when idle =>
 				-- report "state: idle";
-				if set = '1' then
+				if set = 'H' then
 					nextState <= addr_rd;
 				else
 					nextState <= idle;
 				end if;
 			when addr_rd =>
 				-- report "state: addr_rd";
-					if set = '1' then
+					if set = 'H' then
 						-- report "address is "& integer'image(to_integer(address));
 						-- report "data (address) is "&integer'image(to_integer(unsigned(data))); 
 						if (unsigned(data) = address or unsigned(data) = to_unsigned(255,8)) then
@@ -43,7 +43,7 @@ begin
 				nextState <= hold;
 			when hold =>
 				-- report "state: hold";
-				if set ='1' then
+				if set ='H' then
 					nextState <= addr_rd;
 				else
 					nextState <= hold;
@@ -56,7 +56,7 @@ begin
 
 	-- Transition is the actual transition beteen states
 	transition: process(rst,clk) begin
-		if rst = '1' then
+		if rst = 'H' then
 			currentState <= idle;
 		elsif falling_edge(clk) then
 			currentState <= nextState;
