@@ -1,2 +1,7 @@
 Code/Servocontroller/work/
 Code/Servocontroller/wave
+Code/servocontroller/tb_servo.vhd.bak
+*.wlf
+Code/servocontroller/work/_lib1_2.qdb
+Code/servocontroller/work/_lib1_2.qtl
+Code/servocontroller/work/_lib1_2.qpg

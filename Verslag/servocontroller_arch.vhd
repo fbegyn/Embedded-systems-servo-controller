@@ -8,7 +8,7 @@ architecture control of servocontrol is
 	signal pwmi : unsigned(9 downto 0) := (others => '0');
 
   --signal pwm_gen : std_logic;
-  type state is (idle,addr_rd,data_rd,move,hold);
+  type state is (idle,addr_rd,data_rd,hold);
   signal currentState : state:= idle;
   signal nextState: state:= idle;
 
@@ -19,18 +19,14 @@ begin
 		begin
 		case currentState is
 			when idle =>
-				-- report "state: idle";
-				if set = '1' then
+				if set = 'H' then
 					nextState <= addr_rd;
 				else
 					nextState <= idle;
 				end if;
 			when addr_rd =>
-				-- report "state: addr_rd";
-					if set = '1' then
-						-- report "address is "& integer'image(to_integer(address));
-						-- report "data (address) is "&integer'image(to_integer(unsigned(data))); 
-						if unsigned(data) = address then
+					if set = 'H' then
+						if (unsigned(data) = address or unsigned(data) = to_unsigned(255,8)) then
 							nextState <= data_rd;
 						else
 							nextState <= hold;
@@ -39,16 +35,11 @@ begin
 						nextState <= idle;					
 					end if;					
 			when data_rd =>
-				-- report "state: data_rd";
-				nextState <= move;
-			when move =>
-				-- report "state: move";
 				nextState <= hold;
 			when hold =>
-				-- report "state: hold";
-				if set ='1' then
+				if set ='H' then
 					nextState <= addr_rd;
-				elsif set ='0' then
+				else
 					nextState <= hold;
 				end if;
 			when others =>
@@ -68,7 +59,7 @@ begin
 
 	-- set_output determines which output correspont with a state
 	-- The done is defined so it works on bus structure, 3 state logic
-	set_output: process(currentState,clk, nextState) begin
+	set_output: process(currentState, clk, nextState) begin
 		if(rising_edge(clk)) then
 			case currentState is
 				when idle =>
@@ -81,8 +72,6 @@ begin
 					end if;
 				when data_rd =>
 					done <= 'L';
-				when move =>
-					done <= 'H';
 				when hold =>
 					done <= 'H';
 					
@@ -98,22 +87,18 @@ begin
 		case currentState is
 			when idle =>
 				pwmi <= to_unsigned(766,10); -- values according to 510kHz servo clock.
-			when move =>				
-				-- report "setting value";
+			when data_rd =>				
 				if data > std_logic_vector(to_unsigned(255,8)) then
-					-- report "255";
 					pwmi <= to_unsigned(892,10);
 				else
-					-- report "setting ...";
 					pwmi <= unsigned('0' & data) + to_unsigned(638,10);
-					-- report " "&integer'image(to_integer(pwmi));
 				end if;
 			
 			when others =>
 		end case;
 	end process pwm_data;
 
-	-- gen_pwm is a combination of the proces below and the one-liners below it.
+	-- gen_pwm is a combination of the proces below and the one-line process below it.
 	-- gen_pwm counts the amount of ticks according to sclk and resets every clk
 	gen_pwm: process(clk, sclk) begin
 		if rising_edge(clk) then
@@ -124,8 +109,8 @@ begin
 			end if;
 		end if;
 	end process gen_pwm;
-	-- one-liner is the actual code that generates the output signal
-	-- pwm_gen <= '1' when (cnt < pwmi) else '0'; -- this only sends pwm signal when explicitly asked by set_output
+	
+	-- one-line process generates the output signal
 	pwm <= '1' when (cnt < pwmi) else '0'; -- this holds the pwm signal at all times
 
 end architecture control;
