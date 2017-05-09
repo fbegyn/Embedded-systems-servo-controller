@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  4 MAY 2017 22:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  9 MAY 2017 09:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -566,40 +566,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--78
  []
 
 [6] (./Entity.tex (./servocontroller_entity.vhd)) (./Architecture.tex
-(./servocontroller_arch.vhd [7])
-<servocontrol.png, id=39, 809.0225pt x 285.065pt>
+(./servocontroller_arch.vhd
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 7.
+ (/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 7.
+
+[7]) <servocontrol.png, id=40, 809.0225pt x 285.065pt>
 File: servocontrol.png Graphic file (type png)
  <use servocontrol.png>
 Package pdftex.def Info: servocontrol.png used on input line 7.
 (pdftex.def)             Requested size: 418.25368pt x 147.37775pt.
 
-(./servocontroller_arch.vhd
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 19.
- (/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
-File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 19.
-
-[8 <./servocontrol.png>]) (./servocontroller_arch.vhd)
-(./servocontroller_arch.vhd [9]) (./servocontroller_arch.vhd)
-(./servocontroller_arch.vhd [10])) (./Testbench.tex) [11] [12] (./verslag.aux) 
-) 
+(./servocontroller_arch.vhd [8 <./servocontrol.png>])
+(./servocontroller_arch.vhd) (./servocontroller_arch.vhd [9])
+(./servocontroller_arch.vhd) (./servocontroller_arch.vhd [10]))
+(./Testbench.tex) [11] [12] (./verslag.aux) ) 
 Here is how much of TeX's memory you used:
  8932 strings out of 493013
  132628 string characters out of 6139317
- 362564 words of memory out of 5000000
+ 349564 words of memory out of 5000000
  12269 multiletter control sequences out of 15000+600000
  9709 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,14n,43p,1920b,1544s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/s
-hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on verslag.pdf (12 pages, 326163 bytes).
+</usr/share/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.p
+fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy10.pfb>
+Output written on verslag.pdf (12 pages, 325941 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
