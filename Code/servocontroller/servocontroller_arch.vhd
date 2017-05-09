@@ -56,7 +56,7 @@ begin
 
 	-- Transition is the actual transition beteen states
 	transition: process(rst,clk) begin
-		if rst = 'H' then
+		if rst = '1' then
 			currentState <= idle;
 		elsif falling_edge(clk) then
 			currentState <= nextState;
