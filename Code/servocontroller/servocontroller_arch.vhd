@@ -8,7 +8,7 @@ architecture control of servocontrol is
 	signal pwmi : unsigned(9 downto 0) := (others => '0');
 
   --signal pwm_gen : std_logic;
-  type state is (idle,addr_rd,data_rd,move,hold);
+  type state is (idle,addr_rd,data_rd,hold);
   signal currentState : state:= idle;
   signal nextState: state:= idle;
 
@@ -40,15 +40,12 @@ begin
 					end if;					
 			when data_rd =>
 				-- report "state: data_rd";
-				nextState <= move;
-			when move =>
-				-- report "state: move";
 				nextState <= hold;
 			when hold =>
 				-- report "state: hold";
 				if set ='1' then
 					nextState <= addr_rd;
-				elsif set ='0' then
+				else
 					nextState <= hold;
 				end if;
 			when others =>
@@ -68,7 +65,7 @@ begin
 
 	-- set_output determines which output correspont with a state
 	-- The done is defined so it works on bus structure, 3 state logic
-	set_output: process(currentState,clk, nextState) begin
+	set_output: process(currentState, clk, nextState) begin
 		if(rising_edge(clk)) then
 			case currentState is
 				when idle =>
@@ -81,8 +78,6 @@ begin
 					end if;
 				when data_rd =>
 					done <= 'L';
-				when move =>
-					done <= 'H';
 				when hold =>
 					done <= 'H';
 					
@@ -98,7 +93,7 @@ begin
 		case currentState is
 			when idle =>
 				pwmi <= to_unsigned(766,10); -- values according to 510kHz servo clock.
-			when move =>				
+			when data_rd =>				
 				-- report "setting value";
 				if data > std_logic_vector(to_unsigned(255,8)) then
 					-- report "255";
