@@ -162,15 +162,29 @@ begin
 	--breng terug naar plaats =224
 	plaats <= to_unsigned(224,9);
 	wait for 1 ms;
-	report "Terugbrengen naar plaats "&integer'image(to_integer(plaats));
+	report "Test broadcast adres, plaats ="&integer'image(to_integer(plaats));
 	wait until rising_edge(clk);
 	set <='1';
-	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
+	data <=std_logic_vector(to_unsigned(255,data'length)); -- address sturen
 	wait until rising_edge(clk);
 	data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
 	wait until rising_edge(clk);
 	set <= '0';
-	wait for 5 ms;
+	wait until rising_edge(clk);
+	wait until rising_edge(pwm);
+	pwm_start<=now;
+	wait until falling_edge(pwm);
+	pwm_stop<=now;
+	wait until falling_edge(clk);
+	--assert pwmsignaal juist
+	assert(pwm_stop-pwm_start=1.25 ms+ 224*sclkPeriod)
+	report "Fout PWM signaal"
+	severity error;
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+224*sclkPeriod);
+	wait until falling_edge(clk);
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
 	
 	--wrong address (huidige hold plaats= 224 )
 	plaats <= to_unsigned(32,9);
