@@ -302,6 +302,26 @@ begin
 	severity error;
 	wait for 30 ms;
 	
+	
+	rst<='1';
+	wait until falling_edge(clk);
+	rst<='0';
+	wait until rising_edge(clk);
+-- normale werking
+	plaats <= (others => '0');
+	while (plaats < 256) loop
+		report "normale werking zonder testen, plaats is "&integer'image(to_integer(plaats));
+		wait until rising_edge(clk);
+		set <='H';
+		data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
+		wait until rising_edge(clk);
+		data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
+		wait until rising_edge(clk);
+		set <= 'L';
+		wait until falling_edge(clk);
+		plaats <= plaats+15;
+		wait for 1 ms;
+	end loop;
 
 	EndOfSim <= true;
 	wait;
