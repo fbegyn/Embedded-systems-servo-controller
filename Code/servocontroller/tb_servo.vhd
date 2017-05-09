@@ -21,6 +21,9 @@ signal pwm: std_logic;
 constant clkPeriod: time:= 20 ms;
 constant sclkPeriod: time:=	1.960784 us; --aan te passen
 constant dutyCycle: real :=0.5;
+constant idle_time: time:=1.5 ms;
+constant min_time: time:=1.25 ms;
+constant tol: real:=1.0;
 --end of simulation
 signal EndOfSim: boolean:= false;
 
@@ -28,6 +31,7 @@ signal EndOfSim: boolean:= false;
 signal plaats: unsigned(8 downto 0):=(others => '0');
 signal pwm_start: time;
 signal pwm_stop: time;
+
 begin
 
 
@@ -105,10 +109,10 @@ begin
 		pwm_stop<=now;
 		wait until falling_edge(clk);
 		--assert pwmsignaal juist
-		assert(pwm_stop-pwm_start=1.25 ms + to_integer(plaats)*sclkPeriod)
+		assert(((pwm_stop-pwm_start)-(min_time+ to_integer(plaats)*sclkPeriod))<sclkPeriod*tol)
 		report "Fout PWM signaal"
 		severity error;
-		report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+to_integer(plaats)*sclkPeriod);
+		report time'image(pwm_stop-pwm_start)&" /= "&time'image(min_time+to_integer(plaats)*sclkPeriod);
 		wait until falling_edge(clk);
 		assert(done ='H')
 		report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -148,10 +152,10 @@ begin
 	pwm_stop<=now;
 	wait until falling_edge(clk);
 	--assert pwmsignaal juist
-	assert(pwm_stop-pwm_start=1.5 ms)
+	assert(((pwm_stop-pwm_start)-idle_time)<sclkPeriod*tol)
 	report "Fout PWM signaal"
 	severity error;
-	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(idle_time);
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -177,10 +181,10 @@ begin
 	pwm_stop<=now;
 	wait until falling_edge(clk);
 	--assert pwmsignaal juist
-	assert(pwm_stop-pwm_start=1.25 ms+ 224*sclkPeriod)
+	assert(((pwm_stop-pwm_start)-(min_time+ to_integer(plaats)*sclkPeriod))<sclkPeriod*tol)
 	report "Fout PWM signaal"
 	severity error;
-	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+224*sclkPeriod);
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(min_time+to_integer(plaats)*sclkPeriod);
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -215,10 +219,10 @@ begin
 	pwm_stop<=now;
 	wait until falling_edge(clk);
 	--assert pwmsignaal juist (vorige positie)
-	assert(pwm_stop-pwm_start=1.25 ms + 224*sclkPeriod)
+	assert(((pwm_stop-pwm_start)-(min_time+ 224*sclkPeriod))<sclkPeriod*tol)
 	report "Fout PWM signaal"
 	severity error;
-	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+224*sclkPeriod);
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(min_time+224*sclkPeriod);
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -251,10 +255,10 @@ begin
 	pwm_stop<=now;
 	wait until falling_edge(clk);
 	--assert pwmsignaal juist (idle positie)
-	assert(pwm_stop-pwm_start=1.5 ms)
+	assert(((pwm_stop-pwm_start)-idle_time)<sclkPeriod*tol)
 	report "Fout PWM signaal"
 	severity error;
-	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(idle_time);
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -288,10 +292,10 @@ begin
 	pwm_stop<=now;
 	wait until falling_edge(clk);
 	--assert pwmsignaal juist (idle positie)
-	assert(pwm_stop-pwm_start=1.5 ms)
+	assert(((pwm_stop-pwm_start)-idle_time)<sclkPeriod*tol)
 	report "Fout PWM signaal"
 	severity error;
-	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(idle_time);
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
