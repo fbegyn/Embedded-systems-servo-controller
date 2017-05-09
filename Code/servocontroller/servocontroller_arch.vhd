@@ -19,42 +19,33 @@ begin
 		begin
 		case currentState is
 			when idle =>
-				report "state: idle";
+				-- report "state: idle";
 				if set = '1' then
 					nextState <= addr_rd;
 				else
 					nextState <= idle;
 				end if;
 			when addr_rd =>
-				report "state: addr_rd";
-
-				--if falling_edge(clk) then
+				-- report "state: addr_rd";
 					if set = '1' then
-						report "address is "& integer'image(to_integer(address));
-						report "data (address) is "&integer'image(to_integer(unsigned(data))); 
+						-- report "address is "& integer'image(to_integer(address));
+						-- report "data (address) is "&integer'image(to_integer(unsigned(data))); 
 						if unsigned(data) = address then
 							nextState <= data_rd;
 						else
 							nextState <= hold;
-							
 						end if;
 					else
 						nextState <= idle;					
-					end if;
-				--else
-				--	nextState <= idle;
-				--	report "idling";
-				
-				--end if;
-					
+					end if;					
 			when data_rd =>
-				report "state: data_rd";
+				-- report "state: data_rd";
 				nextState <= move;
 			when move =>
-				report "state: move";
+				-- report "state: move";
 				nextState <= hold;
 			when hold =>
-				report "state: hold";
+				-- report "state: hold";
 				if set ='1' then
 					nextState <= addr_rd;
 				elsif set ='0' then
@@ -81,19 +72,19 @@ begin
 		if(rising_edge(clk)) then
 			case currentState is
 				when idle =>
-					done <= '1';
+					done <= 'H';
 				when addr_rd =>
 					if(nextState=data_rd) then
-						done <= '0';
+						done <= 'L';
 					else
-						done <='1';
+						done <='H';
 					end if;
 				when data_rd =>
-					done <= '0';
+					done <= 'L';
 				when move =>
-					done <= '1';
+					done <= 'H';
 				when hold =>
-					done <= '1';
+					done <= 'H';
 					
 				when others =>
 					-- done <= '-';
@@ -106,16 +97,16 @@ begin
 	pwm_data: process(currentState,clk) begin
 		case currentState is
 			when idle =>
-				pwmi <= to_unsigned(765,10); -- values according to 510kHz servo clock.
+				pwmi <= to_unsigned(766,10); -- values according to 510kHz servo clock.
 			when move =>				
-				report "setting value";
+				-- report "setting value";
 				if data > std_logic_vector(to_unsigned(255,8)) then
-					report "255";
+					-- report "255";
 					pwmi <= to_unsigned(892,10);
 				else
-					report "setting ...";
-					pwmi <= unsigned('0' & data) + to_unsigned(637,10);
-					report " "&integer'image(to_integer(pwmi));
+					-- report "setting ...";
+					pwmi <= unsigned('0' & data) + to_unsigned(638,10);
+					-- report " "&integer'image(to_integer(pwmi));
 				end if;
 			
 			when others =>

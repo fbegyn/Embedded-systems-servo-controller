@@ -7,3 +7,4 @@
 \contentsline {section}{\numberline {2}Verslag code}{7}
 \contentsline {subsection}{\numberline {2.1}Entity}{7}
 \contentsline {subsection}{\numberline {2.2}Architecture}{7}
+\contentsline {subsection}{\numberline {2.3}Testbench}{11}

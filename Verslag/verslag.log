@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  2 MAY 2017 11:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  4 MAY 2017 22:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -567,11 +567,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--78
 
 [6] (./Entity.tex (./servocontroller_entity.vhd)) (./Architecture.tex
 (./servocontroller_arch.vhd [7])
-<servocontrol.png, id=39, 819.06pt x 285.065pt>
+<servocontrol.png, id=39, 809.0225pt x 285.065pt>
 File: servocontrol.png Graphic file (type png)
  <use servocontrol.png>
 Package pdftex.def Info: servocontrol.png used on input line 7.
-(pdftex.def)             Requested size: 418.25368pt x 145.5726pt.
+(pdftex.def)             Requested size: 418.25368pt x 147.37775pt.
 
 (./servocontroller_arch.vhd
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 19.
@@ -599,7 +599,7 @@ s/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 r12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/s
 hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on verslag.pdf (12 pages, 328482 bytes).
+Output written on verslag.pdf (12 pages, 326163 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
