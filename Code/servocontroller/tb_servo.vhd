@@ -85,7 +85,7 @@ begin
 	while (plaats < 256) loop
 		report "normale werking, plaats is "&integer'image(to_integer(plaats));
 		wait until rising_edge(clk);
-		set <='1';
+		set <='H';
 		data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 		wait until falling_edge(clk);
 		assert(done = 'H')
@@ -98,7 +98,7 @@ begin
 		report "Done is "&std_logic'image(done)&", verwacht 'L'"
 		severity error;
 		wait until rising_edge(clk);
-		set <= '0';
+		set <= 'L';
 		wait until falling_edge(clk);
 		assert( done ='L')
 		report "Done is "&std_logic'image(done)&", verwacht 'L'"
@@ -124,7 +124,7 @@ begin
 	--reset test
 	report "Reset test, plaats is"&integer'image(to_integer(plaats));
 	wait until rising_edge(clk);
-	set <='1';
+	set <='H';
 	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 	wait until falling_edge(clk);
 	assert(done = 'H')
@@ -141,7 +141,7 @@ begin
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(clk);
-	set <= '0';
+	set <= 'L';
 	wait until falling_edge(clk);
 	assert( done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -168,12 +168,12 @@ begin
 	wait for 1 ms;
 	report "Test broadcast adres, plaats ="&integer'image(to_integer(plaats));
 	wait until rising_edge(clk);
-	set <='1';
+	set <='H';
 	data <=std_logic_vector(to_unsigned(255,data'length)); -- address sturen
 	wait until rising_edge(clk);
 	data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
 	wait until rising_edge(clk);
-	set <= '0';
+	set <= 'L';
 	wait until rising_edge(clk);
 	wait until rising_edge(pwm);
 	pwm_start<=now;
@@ -195,7 +195,7 @@ begin
 	wait for 1 ms;
 	report "Geef fout adres mee";
 	wait until rising_edge(clk);
-	set <='1';
+	set <='H';
 	data <=std_logic_vector(to_unsigned(2,data'length)); -- address sturen
 	wait until falling_edge(clk);
 	assert(done = 'H')
@@ -208,7 +208,7 @@ begin
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(clk);
-	set <= '0';
+	set <= 'L';
 	wait until falling_edge(clk);
 	assert( done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
@@ -232,14 +232,14 @@ begin
 	--no position set after address sent (set goes to 0 on next clk pulse)
 	report "no position sent after address sent (set ='0' op volgende klokperiode)";
 	wait until rising_edge(clk);
-	set <='1';
+	set <='H';
 	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 	wait until falling_edge(clk);
 	assert(done = 'H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(clk);
-	set <='0';
+	set <='L';
 	wait until falling_edge(clk);
 	assert(done ='L')
 	report "Done is "&std_logic'image(done)&", verwacht 'L'"
@@ -269,14 +269,14 @@ begin
 	--set =0 voor volgende puls
 	report "no position sent after address sent (set ='0' voor volgende klokperiode)";
 	wait until rising_edge(clk);
-	set <='1';
+	set <='H';
 	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 	wait until falling_edge(clk);
 	assert(done = 'H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait for 5 ms;
-	set <='0';
+	set <='L';
 	wait until falling_edge(clk);
 	assert(done ='H')
 	report "Done is "&std_logic'image(done)&", verwacht 'H'"
