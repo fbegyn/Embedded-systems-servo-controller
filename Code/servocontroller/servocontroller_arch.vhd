@@ -30,7 +30,7 @@ begin
 					if set = '1' then
 						-- report "address is "& integer'image(to_integer(address));
 						-- report "data (address) is "&integer'image(to_integer(unsigned(data))); 
-						if unsigned(data) = address then
+						if (unsigned(data) = address or unsigned(data) = to_unsigned(255,8)) then
 							nextState <= data_rd;
 						else
 							nextState <= hold;
