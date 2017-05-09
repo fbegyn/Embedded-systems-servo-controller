@@ -7,20 +7,6 @@ end;
 
 architecture test of tb_servocontroller is
 
---component servocontroller_entity
---generic(
---	address: unsigned(7 downto 0)
---);
---port(
---	clk: in std_logic;
---	rst: in std_logic;
---	sclk: in std_logic;
---	set: in std_logic;
---	data: in std_logic_vector(7 downto 0);
---	done: out std_logic;
---	pwm: out std_logic
---);
---end component;
 
 --inputs
 signal clk: std_logic;
@@ -93,25 +79,25 @@ begin
 -- normale werking
 	plaats <= (others => '0');
 	while (plaats < 256) loop
-		report " "&integer'image(to_integer(plaats));
+		report "normale werking, plaats is "&integer'image(to_integer(plaats));
 		wait until rising_edge(clk);
 		set <='1';
 		data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 		wait until falling_edge(clk);
-		assert(done = '1')
-		report "Done is "&std_logic'image(done)&", verwacht '1'"
+		assert(done = 'H')
+		report "Done is "&std_logic'image(done)&", verwacht 'H'"
 		severity error;
 		wait until rising_edge(clk);
 		data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
 		wait until falling_edge(clk);
-		assert(done ='0')
-		report "Done is "&std_logic'image(done)&", verwacht '0'"
+		assert(done ='L')
+		report "Done is "&std_logic'image(done)&", verwacht 'L'"
 		severity error;
 		wait until rising_edge(clk);
 		set <= '0';
 		wait until falling_edge(clk);
-		assert( done ='0')
-		report "Done is "&std_logic'image(done)&", verwacht '0'"
+		assert( done ='L')
+		report "Done is "&std_logic'image(done)&", verwacht 'L'"
 		severity error;
 		wait until rising_edge(pwm);
 		pwm_start<=now;
@@ -124,33 +110,90 @@ begin
 		severity error;
 		report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+to_integer(plaats)*sclkPeriod);
 		wait until falling_edge(clk);
-		assert(done ='1')
-		report "Done is "&std_logic'image(done)&", verwacht '1'"
+		assert(done ='H')
+		report "Done is "&std_logic'image(done)&", verwacht 'H'"
 		severity error;
 		plaats <= plaats+32;
-		wait for 30 ms;
+		wait for 1 ms;
 	end loop;
 	
-	--wrong address (huidige hold plaats=224 )
-	plaats <= to_unsigned(5,9);
+	--reset test
+	report "Reset test, plaats is"&integer'image(to_integer(plaats));
 	wait until rising_edge(clk);
 	set <='1';
-	data <=std_logic_vector(to_unsigned(2,data'length)); -- address sturen
+	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 	wait until falling_edge(clk);
-	assert(done = '1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done = 'H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
+	wait for 5 ms;
+	rst <='1';
+	wait for 1 ms;
+	rst <='0';
 	wait until rising_edge(clk);
 	data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
 	wait until falling_edge(clk);
-	assert(done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(clk);
 	set <= '0';
 	wait until falling_edge(clk);
-	assert( done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert( done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait until rising_edge(pwm);
+	pwm_start<=now;
+	wait until falling_edge(pwm);
+	pwm_stop<=now;
+	wait until falling_edge(clk);
+	--assert pwmsignaal juist
+	assert(pwm_stop-pwm_start=1.5 ms)
+	report "Fout PWM signaal"
+	severity error;
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
+	wait until falling_edge(clk);
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	
+	
+	
+	--breng terug naar plaats =224
+	plaats <= to_unsigned(224,9);
+	wait for 1 ms;
+	report "Terugbrengen naar plaats "&integer'image(to_integer(plaats));
+	wait until rising_edge(clk);
+	set <='1';
+	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
+	wait until rising_edge(clk);
+	data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
+	wait until rising_edge(clk);
+	set <= '0';
+	wait for 5 ms;
+	
+	--wrong address (huidige hold plaats= 224 )
+	plaats <= to_unsigned(32,9);
+	wait for 1 ms;
+	report "Geef fout adres mee";
+	wait until rising_edge(clk);
+	set <='1';
+	data <=std_logic_vector(to_unsigned(2,data'length)); -- address sturen
+	wait until falling_edge(clk);
+	assert(done = 'H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait until rising_edge(clk);
+	data <= std_logic_vector(plaats(7 downto 0)); -- positie sturen
+	wait until falling_edge(clk);
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait until rising_edge(clk);
+	set <= '0';
+	wait until falling_edge(clk);
+	assert( done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(pwm);
 	pwm_start<=now;
@@ -163,29 +206,30 @@ begin
 	severity error;
 	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.25 ms+224*sclkPeriod);
 	wait until falling_edge(clk);
-	assert(done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
-	wait for 30 ms;
+	wait for 1 ms;
 	
-	--no position set after address sent (set goes to 0)
+	--no position set after address sent (set goes to 0 on next clk pulse)
+	report "no position sent after address sent (set ='0' op volgende klokperiode)";
 	wait until rising_edge(clk);
 	set <='1';
 	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
 	wait until falling_edge(clk);
-	assert(done = '1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done = 'H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(clk);
 	set <='0';
 	wait until falling_edge(clk);
-	assert(done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done ='L')
+	report "Done is "&std_logic'image(done)&", verwacht 'L'"
 	severity error;
 	wait until rising_edge(clk);
 	wait until falling_edge(clk);
-	assert( done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert( done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait until rising_edge(pwm);
 	pwm_start<=now;
@@ -198,11 +242,47 @@ begin
 	severity error;
 	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
 	wait until falling_edge(clk);
-	assert(done ='1')
-	report "Done is "&std_logic'image(done)&", verwacht '1'"
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait for 1 ms;
+	
+	
+	--set =0 voor volgende puls
+	report "no position sent after address sent (set ='0' voor volgende klokperiode)";
+	wait until rising_edge(clk);
+	set <='1';
+	data <=std_logic_vector(to_unsigned(1,data'length)); -- address sturen
+	wait until falling_edge(clk);
+	assert(done = 'H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait for 5 ms;
+	set <='0';
+	wait until falling_edge(clk);
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait until rising_edge(clk);
+	wait until falling_edge(clk);
+	assert( done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
+	severity error;
+	wait until rising_edge(pwm);
+	pwm_start<=now;
+	wait until falling_edge(pwm);
+	pwm_stop<=now;
+	wait until falling_edge(clk);
+	--assert pwmsignaal juist (idle positie)
+	assert(pwm_stop-pwm_start=1.5 ms)
+	report "Fout PWM signaal"
+	severity error;
+	report time'image(pwm_stop-pwm_start)&" /= "&time'image(1.5 ms);
+	wait until falling_edge(clk);
+	assert(done ='H')
+	report "Done is "&std_logic'image(done)&", verwacht 'H'"
 	severity error;
 	wait for 30 ms;
-	
 	
 
 	EndOfSim <= true;
