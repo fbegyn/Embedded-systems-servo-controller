@@ -23,7 +23,7 @@ constant sclkPeriod: time:= 1.960784 us; --aan te passen
 constant dutyCycle: real := 0.5;
 constant idle_time: time:= 1.5 ms;
 constant min_time: time:= 1.25 ms;
-constant tol: real:= 0.5;
+constant tol: real:= 1.0;
 --end of simulation
 signal EndOfSim: boolean:= false;
 
@@ -120,7 +120,9 @@ begin
 		wait for 1 ms;
 	end loop;
 	
-	--reset test
+	--reset test (plaats =224)
+	plaats <= to_unsigned(224,9);
+	wait for 1 ms;
 	report "Reset test";
 	wait until rising_edge(clk);
 	set <='H';
@@ -162,8 +164,6 @@ begin
 	
 	
 	--Test Broadcast address (plaats =224)
-	plaats <= to_unsigned(224,9);
-	wait for 1 ms;
 	report "Test broadcast adres, plaats ="&integer'image(to_integer(plaats));
 	wait until rising_edge(clk);
 	set <='H';

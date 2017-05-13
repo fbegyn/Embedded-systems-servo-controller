@@ -3,6 +3,8 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{fancyhdr}
+\usepackage{textcomp}
+\usepackage{float}
 \usepackage[headheight=10pt]{geometry}
 \usepackage[acronyms,nomain,nonumberlist]{glossaries}
 
@@ -61,9 +63,9 @@
 	\listoffigures
 	\newpage
 	
-	\addcontentsline{toc}{section}{Lijst met tabellen}
-	\listoftables
-	\newpage
+	%\addcontentsline{toc}{section}{Lijst met tabellen}
+	%\listoftables
+	%\newpage
 	
 	\addcontentsline{toc}{section}{Lijst met afkortingen}
 	\printglossary[type=\acronymtype,title={Lijst met afkortingen}]
@@ -73,16 +75,19 @@
 	\section*{Inleiding}
 	\input{Inleiding}
 	
+	\newpage
 	\section{Vereisten en afspraken van de controller}
 	\input{Vereisten}
 	
+	\newpage
 	\section{Verslag code}
 	\input{Entity}
 	\input{Architecture}
 	\input{Testbench}
 	
+	\newpage
 	\section*{Conclusie}
-%	\input{}
+	\input{Conclusie}
 	
 	%\addcontentsline{toc}{section}{Referenties}
 	%\printbibliography[title={Referenties}]

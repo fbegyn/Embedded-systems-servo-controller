@@ -1,8 +1,7 @@
 \contentsline {section}{Inhoudstabel}{2}
 \contentsline {section}{Lijst met figuren}{3}
-\contentsline {section}{Lijst met tabellen}{4}
-\contentsline {section}{Lijst met afkortingen}{5}
-\contentsline {section}{Inleiding}{6}
+\contentsline {section}{Lijst met afkortingen}{4}
+\contentsline {section}{Inleiding}{5}
 \contentsline {section}{\numberline {1}Vereisten en afspraken van de controller}{6}
 \contentsline {section}{\numberline {2}Verslag code}{7}
 \contentsline {subsection}{\numberline {2.1}Entity}{7}
