@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  16 MAY 2017 09:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  16 MAY 2017 09:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -620,9 +620,8 @@ png>] (./verslag.toc)
 \tf@lof=\write6
 \openout6 = `verslag.lof'.
 
- [3]
-No file verslag.acr.
-[4] (./Inleiding.tex) [5] (./Vereisten.tex)
+ [3] (./verslag.acr) [4]
+(./Inleiding.tex) [5] (./Vereisten.tex)
 Underfull \hbox (badness 10000) in paragraph at lines 1--81
 
  []
@@ -709,8 +708,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--91
 
 [22] [23] (./verslag.aux) ) 
 Here is how much of TeX's memory you used:
- 9561 strings out of 493013
- 141994 string characters out of 6139317
+ 9563 strings out of 493013
+ 142018 string characters out of 6139317
  411547 words of memory out of 5000000
  12864 multiletter control sequences out of 15000+600000
  10050 words of font info for 36 fonts, out of 8000000 for 9000
@@ -724,7 +723,7 @@ type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17
 .pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sha
 re/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on verslag.pdf (23 pages, 375560 bytes).
+Output written on verslag.pdf (23 pages, 377758 bytes).
 PDF statistics:
  123 PDF objects out of 1000 (max. 8388607)
  80 compressed objects within 1 object stream
