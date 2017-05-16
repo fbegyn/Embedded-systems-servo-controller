@@ -8,7 +8,7 @@ State\_trans beschrijft de transities tussen verschillende staten. De transities
 	\includegraphics[width=\linewidth]{servocontrol.png}
 	\caption{Transitiediagram voor de \gls{fsm} van de servocontroller}
 \end{figure}\\
- Voordat de controller het \gls{pwm} signaal aanmaakt, moet er gecontroleerd worden of het doorgestuurde adres enerzijds het broadcast address is, of anderzijds het adres is van de servomotor is. Ander mag de controller zijn output niet aanpassen. Indien het set-signaal onderbroken wordt, voordat er een nieuwe positie is doorgestuurd, moet de controller naar de neutrale positie(idle) gaan.
+ Voordat de controller het \gls{pwm} signaal aanmaakt, moet er gecontroleerd worden of het doorgestuurde adres enerzijds het broadcast address is, of anderzijds het adres is van de servomotor is. Anders mag de controller zijn output niet aanpassen. Indien het set-signaal onderbroken wordt, voordat er een nieuwe positie is doorgestuurd, moet de controller naar de neutrale positie(idle) gaan.
 
 \lstinputlisting[firstline=17,lastline=49]{servocontroller_arch.vhd}
 Transition is het proces dat de overgangen van de staten dicteert. Hier wordt er ook voor gezorgd dat bij een reset de controller altijd terug gaat naar neutrale (idle) positie, ongeacht de status van de andere signalen.

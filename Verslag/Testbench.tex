@@ -17,9 +17,9 @@ Na het definieren van de signalen, begint de eigenlijke architectuur van de test
 \lstinputlisting[firstline=35,lastline=49]{tb_servo.vhd}
 In een volgende stap worden de twee kloksignalen gegenereerd, die nodig zijn om de servocontroller aan te sturen.
 \lstinputlisting[firstline=52,lastline=72]{tb_servo.vhd}
-Het laatste proces, zal inputsignalen sturen naar de servocontroller en de output controleren. Dit proces kan in verschillende delen onderverdeelt worden.//
+Het laatste proces, zal inputsignalen sturen naar de servocontroller en de output controleren. Dit proces kan in verschillende delen onderverdeelt worden.\\
 \noindent
-Eerst wordt de normale werking getest. Posities van 0 tot 256 worden aangelegd, in stappen van 32. Tijdens de opdracht wordt de staat van het done signaal gecontrollerd. Na een opdracht wordt er gecontroleerd of het \gls{pwm}signaal correct is. Het verwachte gedrag wordt ge\"{i}llustreerd in de volgende figuur.\\
+Eerst wordt de normale werking getest. Posities van 0 tot 255 worden aangelegd, in stappen van 32. Tijdens de opdracht wordt de staat van het done signaal gecontrollerd. Na een opdracht wordt er gecontroleerd of het \gls{pwm} signaal correct is. Het verwachte gedrag wordt ge\"{i}llustreerd in de volgende figuur.\\
 
 \begin{figure}[H]
 	\centering
@@ -35,7 +35,7 @@ Na de normale werking getest te hebben, moet er gecontroleerd worden of de servo
 Vervolgens wordt getest of de servocontroller ook luistert naar het broadcastaddress. De structuur is identiek als in de normale werking test, maar het adres is nu 255.
 
 \lstinputlisting[firstline=166,lastline=188]{tb_servo.vhd}
-Een volgende stap is het testen wat er gebeurt als de servocontroller een adres ontvangt dat niet zijn adres is, m.a.w. als de positiewijziging voor een andere servomotor bedoeld is. Het adres dat aangelegd wordt, is 2, de positie is 32\textdegree Er wordt gecontroleerd dat de servomotor nog hetzelfde \gls{pwm}signaal geeft, nl. het signaal dat in de vorige stap (test broadcastaddress) bepaald is.
+Een volgende stap is het testen wat er gebeurt als de servocontroller een adres ontvangt dat niet zijn adres is, m.a.w. als de positiewijziging voor een andere servomotor bedoeld is. Het adres dat aangelegd wordt, is 2, de positie is 32\textdegree. Er wordt gecontroleerd dat de servomotor nog hetzelfde \gls{pwm}signaal geeft, nl. het signaal dat in de vorige stap (test broadcastaddress) bepaald is.
 
 \lstinputlisting[firstline=190,lastline=226]{tb_servo.vhd}
 Er kan een situatie ontstaan, waar de servocontroller wel een adres krijgt, maar geen positie. In dit geval zal set vroegtijdig laag worden. De servomotor moet dan terugvallen naar zijn reset positie. Er wordt getest wat er gebeurd als set laag wordt op de volgende stijgende klokflank: Done zal even laag worden, totdat de servocontroller beseft dat er geen verdere instructie komt. Op dat moment wordt de positie naar neutraal gebracht. Wanneer set vroeger laag wordt, zal de servocontroller bij de volgende stijgende klokflank onmiddellijk zien dat er geen verdere informatie komt en naar de neutrale positie gaan.
