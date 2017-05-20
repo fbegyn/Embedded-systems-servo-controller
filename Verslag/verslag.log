@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  16 MAY 2017 09:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.25)  20 MAY 2017 23:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -660,7 +660,7 @@ File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 7.
 
-[7]) <servocontrol.png, id=41, 809.0225pt x 285.065pt>
+[7]) <servocontrol.png, id=42, 809.0225pt x 285.065pt>
 File: servocontrol.png Graphic file (type png)
  <use servocontrol.png>
 Package pdftex.def Info: servocontrol.png used on input line 8.
@@ -689,7 +689,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--23
 
  []
 
-<timing.png, id=59, 430.60875pt x 276.28218pt>
+<timing.png, id=60, 430.60875pt x 276.28218pt>
 File: timing.png Graphic file (type png)
  <use timing.png>
 Package pdftex.def Info: timing.png used on input line 26.
@@ -708,11 +708,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--91
 
 [22] [23] (./verslag.aux) ) 
 Here is how much of TeX's memory you used:
- 9563 strings out of 493013
- 142018 string characters out of 6139317
+ 9566 strings out of 493013
+ 142050 string characters out of 6139317
  411547 words of memory out of 5000000
- 12864 multiletter control sequences out of 15000+600000
- 10050 words of font info for 36 fonts, out of 8000000 for 9000
+ 12866 multiletter control sequences out of 15000+600000
+ 10396 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,14n,77p,1920b,1544s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-s
@@ -722,11 +722,12 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17
 .pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sha
-re/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on verslag.pdf (23 pages, 377758 bytes).
+re/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/
+fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on verslag.pdf (23 pages, 390161 bytes).
 PDF statistics:
- 123 PDF objects out of 1000 (max. 8388607)
- 80 compressed objects within 1 object stream
+ 127 PDF objects out of 1000 (max. 8388607)
+ 83 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
