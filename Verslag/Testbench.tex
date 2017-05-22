@@ -12,19 +12,20 @@ Verder worden ook enkele constanten aangemaakt die betrekking hebben tot de timi
 Tot slot worden er nog een aantal hulpsignalen aangemaakt. EndOfSimulation is het signaal dat true wordt wanneer de simulatie klaar is. Plaats is het signaal dat gebruikt wordt om een positie aan de servocontroller door te geven. Pwm\_start en pwm\_stop zijn hulpsignalen om de timing van het \gls{pwm}signaal te controleren. 
 
 \lstinputlisting[firstline=1,lastline=33]{tb_servo.vhd}
-Na het definieren van de signalen, begint de eigenlijke architectuur van de testbench. Als eerste stap wordt het \gls{dut} op de juiste manier verbonden. Er is voor gekozen om de te testen servocontroller het adres 1 te geven.
+Na het defini\"{e}ren van de signalen, begint de eigenlijke architectuur van de testbench. Als eerste stap wordt het \gls{dut} op de juiste manier verbonden. Er is voor gekozen om de te testen servocontroller het adres 1 te geven.
 
 \lstinputlisting[firstline=35,lastline=49]{tb_servo.vhd}
 In een volgende stap worden de twee kloksignalen gegenereerd, die nodig zijn om de servocontroller aan te sturen.
 \lstinputlisting[firstline=52,lastline=72]{tb_servo.vhd}
-Het laatste proces, zal inputsignalen sturen naar de servocontroller en de output controleren. Dit proces kan in verschillende delen onderverdeelt worden.\\
+Het laatste proces, zal inputsignalen sturen naar de servocontroller en de output controleren. Dit proces kan in verschillende delen onderverdeeld worden.\\
 \noindent
-Eerst wordt de normale werking getest. Posities van 0 tot 255 worden aangelegd, in stappen van 32. Tijdens de opdracht wordt de staat van het \textit{done} signaal gecontroleerd. Na een opdracht wordt er gecontroleerd of het \gls{pwm} signaal correct is. Het verwachte gedrag wordt ge\"{i}llustreerd in de volgende figuur.\\
+Eerst wordt de normale werking getest. Posities van 0 tot 255 worden aangelegd, in stappen van 32. Tijdens de opdracht wordt de staat van het \textit{done} signaal gecontroleerd. Na een opdracht wordt er gecontroleerd of het \gls{pwm} signaal correct is. Het verwachte gedrag wordt ge\"{i}llustreerd in figuur \ref{fig:timing}.\\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{timing.png}
 	\caption{Timing diagram voor de servocontroller}
+	\label{fig:timing}
 \end{figure}
 \noindent
 De timing wordt getest met behulp van de \textit{assert/report/severity command} van \gls{vhdl}. Bij een stijgende flank van de klok wordt set hoog gezet, en wordt er naar data het adres 1 gestuurd. Op de dalende flank van de klok wordt gecontroleerd of \textit{done} hoog staat, anders wordt een error gerapporteerd. Na de volgende stijgende klokflank wordt de gewenste plaats naar data gestuurd. \textit{Done} moet nu laag zijn, dit wordt opnieuw getest. Op de volgende stijgende flank moet set terug op laag gezet worden. Er wordt opnieuw gecontroleerd dat \textit{done} laag is. Het \gls{pwm}signaal moet nog gecontroleerd worden. Pwm\_start is de timestamp van de eerstvolgende stijgende flank van het \gls{pwm}signaal, pwm\_stop is de timestamp van de eerstvolgende dalende flank. Door het verschil te berekenen tussen deze twee momenten, en te controleren met de verwachte duur van het signaal, wordt de juistheid van het \gls{pwm}signaal bepaald. Een verschil van de servoklokperiode wordt getolereerd als fout, omdat de servoklokperiode de maximale resolutie bepaald. Op dit moment wordt \textit{done} voor de laatste keer getest, \textit{done} moet nu hoog zijn. Dit proces wordt herhaald voor de verschillende posities.    \\
