@@ -19,7 +19,7 @@ signal done: std_logic;
 signal pwm: std_logic;
 --timing
 constant clkPeriod: time:= 20 ms;
-constant sclkPeriod: time:= 1.960784 us; --aan te passen
+constant sclkPeriod: time:= 1.960784 us; 
 constant dutyCycle: real := 0.5;
 constant idle_time: time:= 1.5 ms;
 constant min_time: time:= 1.25 ms;
