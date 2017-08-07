@@ -1,8 +1,0 @@
-v 4
-file "/home/francis/Documents/Ugent/3de-bach/Ingebedde-systemen:Hardwaresynthese/Project/Code/servocontroller/" "tb_servo.vhd" "a3478d1f4f00fee52f2d7d546e11f1abf3afbde7" "20170516074111.971":
-  entity tb_servocontroller at 1( 0) + 0 on 87;
-  architecture test of tb_servocontroller at 8( 112) + 0 on 88;
-file "/home/francis/Documents/Ugent/3de-bach/Ingebedde-systemen:Hardwaresynthese/Project/Code/servocontroller/" "servocontroller_arch.vhd" "fd8e797d4e90efc95b991a399ece1c72b273c512" "20170509101051.784":
-  architecture control of servocontrol at 1( 0) + 0 on 68;
-file "/home/francis/Documents/Ugent/3de-bach/Ingebedde-systemen:Hardwaresynthese/Project/Code/servocontroller/" "servocontroller_entity.vhd" "40d5e4d96c86821c36ef0c0e47656c1ba602dd0b" "20170509092024.490":
-  entity servocontrol at 1( 0) + 0 on 11;
